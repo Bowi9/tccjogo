@@ -1,64 +1,60 @@
-*{
-    margin: 0;
-    padding: 0;
-    
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+
+  box-sizing: border-box;
 }
 canvas {
-    width: 100%;
-    height: 100%;
-    display: block;
-    /* position: relative; Adicione esta linha */
-
+  width: 100%;
+  height: 100%;
+  display: block;
+  /* position: relative; Adicione esta linha */
 }
 
-
 .container {
-    position: absolute;
-    /* top: 50%; */
-    left: 50%;
-    transform: translate( -50%);
-    z-index: 2; /* Defina um valor alto para z-index */
-
+  position: absolute;
+  /* top: 50%; */
+  left: 50%;
+  transform: translate(-50%);
+  z-index: 2; /* Defina um valor alto para z-index */
 }
 
 #btn-div {
-    position: absolute;
-    margin-top: 350px;
-    margin-left: 35%;
-    padding-left: 12%;
-    padding-right: 12%;
-    padding-top: 1.2%;
-    padding-bottom: 1.2%;
-    border-radius: 25px;
-    border: 10px;
-    box-shadow: 8px 8px 8px 8px rgba(0, 0, 0, 0.2);
-    /* border-top-left-radius: 25%; */
-    border-color: rgb(255, 255, 255);
-    text-align: center;
-    z-index: 3;
-    font-family: Crang;
-    font-size: 30px;
-   
+  position: absolute;
+  margin-top: 350px;
+  margin-left: 35%;
+  padding-left: 12%;
+  padding-right: 12%;
+  padding-top: 1.2%;
+  padding-bottom: 1.2%;
+  border-radius: 25px;
+  border: 10px;
+  box-shadow: 8px 8px 8px 8px rgba(0, 0, 0, 0.2);
+  /* border-top-left-radius: 25%; */
+  border-color: rgb(255, 255, 255);
+  text-align: center;
+  z-index: 3;
+  font-family: Crang;
+  font-size: 30px;
 }
 #btn-div:hover {
-    background-color: #b4b4b4; /* Defina a cor de fundo desejada */
-    color: white; /* Defina a cor do texto */
+  background-color: #b4b4b4; /* Defina a cor de fundo desejada */
+  color: white; /* Defina a cor do texto */
 }
 
-#logo{
-    position: absolute; 
-    width: 70%; 
-    height: 40;
-    margin-left: 10%;
-    margin-top: -6%;
-
+#logo {
+  position: absolute;
+  width: 70%;
+  height: 40;
+  margin-left: 10%;
+  margin-top: -6%;
 }
-#timer, #player1Points, #Player2Points {
-    display: none;
+#timer,
+#player1Points,
+#Player2Points {
+  display: none;
 }
 @font-face {
-    font-family: Crang;
-    src: url('../font/Crang.ttf') format('truetype'); /* ou 'woff' para arquivos .woff */
-  }
-  
+  font-family: Crang;
+  src: url("../font/Crang.ttf") format("truetype"); /* ou 'woff' para arquivos .woff */
+}

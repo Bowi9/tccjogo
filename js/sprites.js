@@ -2,6 +2,7 @@ const gravity = 1.6;
 const floorHeight = 400;
 const backgroundSpritePath = "img/bg.png";
 const defautObjectSpritePath = "img/square.svg";
+const dirPath = "img/spr/bola.png";
 
 class Sprite {
   constructor({ position, velocity, source, scale, offset, sprites }) {
@@ -42,7 +43,7 @@ class Sprite {
     this.totalSpriteFrames = this.sprites.idle.totalSpriteFrames;
   }
 
-  setSprite(sprite) {    
+  setSprite(sprite) {
     this.currentSprite = this.sprites[sprite];
 
     if (!this.currentSprite) {
@@ -171,7 +172,7 @@ class Actor extends Sprite {
     //this.rebote = rebote
   }
 
-  gravity() {    
+  gravity() {
     // Gravidade Jogador
     if (
       Math.ceil(this.position.y + this.height >= canvas.height - floorHeight)
@@ -183,7 +184,7 @@ class Actor extends Sprite {
       // this.velocity.y += gravity
     }
 
-    //gravidade bola
+    //colidindo com o teto ou com o chão
     if (this.position.y + this.height > canvas.height - floorHeight) {
       this.position.y = canvas.height - this.height - floorHeight;
       if (Math.abs(this.velocity.y) < 1) {
@@ -210,10 +211,10 @@ class Actor extends Sprite {
     //    this.rebote = this.velocity.x = -this.velocity.x
 
     //   }
-    //   if(this.onGround){
-    //     this.velocity.x *= 0.99;
-    //     this.velocity.y *= 0.99;
-    //   }
+      if(this.onGround){
+        this.velocity.x *= 0.99;
+        this.velocity.y *= 0.99;
+      }
   }
   // gravity() {
   //     if (this.position.y + this.height >= canvas.height - floorHeight) {
@@ -684,60 +685,61 @@ class Scenario extends Sprite {
     position,
     sprites,
     scale,
-    // offset = {x: 0, y:0},
-    // hitBox = {offset:{}, width: undefined, height: undefined},
-    // hitBox3 = {offset:{}, width: undefined, height: undefined},
-    // hitBox4 = {offset:{}, width: undefined, height: undefined},
+    offset = {x: 0, y:0},
+    hitBox = {offset:{}, width: undefined, height: undefined},
+    hitBox3 = {offset:{}, width: undefined, height: undefined},
+    hitBox4 = {offset:{}, width: undefined, height: undefined},
   }) {
     super({
       position,
       sprites,
       scale,
+    
     });
     // this.width = dimensions.width
     // this.height = dimensions.height
-    // this.color = color
-    // this.hitBox = {
-    //     position:{
-    //         x: this.position.x,
-    //         y: this.position.y
-    //     },
-    //     offset: hitBox.offset,
-    //     width: hitBox.width,
-    //     height: hitBox.height
-    // }
-    // this.hitBox3 = {
-    //     position:{
-    //         x: this.position.x,
-    //         y: this.position.y
-    //     },
-    //     offset: hitBox3.offset,
-    //     width: hitBox3.width,
-    //     height: hitBox3.height
-    // }
-    // this.hitBox4 = {
-    //     position:{
-    //         x: this.position.x,
-    //         y: this.position.y
-    //     },
-    //     offset: hitBox4.offset,
-    //     width: hitBox4.width,
-    //     height: hitBox4.height
-    // }
+   // this.color = color
+    this.hitBox = {
+        position:{
+            x: this.position.x,
+            y: this.position.y
+        },
+        offset: hitBox.offset,
+        width: hitBox.width,
+        height: hitBox.height
+    }
+    this.hitBox3 = {
+        position:{
+            x: this.position.x,
+            y: this.position.y
+        },
+        offset: hitBox3.offset,
+        width: hitBox3.width,
+        height: hitBox3.height
+    }
+    this.hitBox4 = {
+        position:{
+            x: this.position.x,
+            y: this.position.y
+        },
+        offset: hitBox4.offset,
+        width: hitBox4.width,
+        height: hitBox4.height,
+    }
   }
 
   update() {
     this.loadSprite();
     this.animate();
 
-    //   this.hitBox.position.x = this.position.x + this.hitBox.offset.x
-    //   this.hitBox.position.y = this.position.y + this.hitBox.offset.y
+      this.hitBox.position.x = this.position.x + this.hitBox.offset.x
+      this.hitBox.position.y = this.position.y + this.hitBox.offset.y
 
-    //   this.hitBox3.position.x = this.position.x + this.hitBox3.offset.x
-    //   this.hitBox3.position.y = this.position.y + this.hitBox3.offset.y
+      this.hitBox3.position.x = this.position.x + this.hitBox3.offset.x
+      this.hitBox3.position.y = this.position.y + this.hitBox3.offset.y
 
-    //   this.hitBox4.position.x = this.position.x + this.hitBox4.offset.x
-    //   this.hitBox4.position.y = this.position.y + this.hitBox4.offset.y
+      this.hitBox4.position.x = this.position.x + this.hitBox4.offset.x
+      this.hitBox4.position.y = this.position.y + this.hitBox4.offset.y
 
     // ctx.fillStyle = "red"
     //   ctx.fillRect(
@@ -747,21 +749,23 @@ class Scenario extends Sprite {
     //     this.hitBox.height
     //   )
 
-    //   ctx.fillStyle = "gray"
-    //   ctx.fillRect(
-    //     this.hitBox3.position.x,
-    //     this.hitBox3.position.y,
-    //     this.hitBox3.width,
-    //     this.hitBox3.height
-    //   )
+      // ctx.fillStyle = "gray"
+      // ctx.fillRect(
+      //   this.hitBox3.position.x,
+      //   this.hitBox3.position.y,
+      //   this.hitBox3.width,
+      //   this.hitBox3.height
+      // )
 
-    //   ctx.fillStyle = "brown"
-    //   ctx.fillRect(
-    //     this.hitBox4.position.x,
-    //     this.hitBox4.position.y,
-    //     this.hitBox4.width,
-    //     this.hitBox4.height
-    //   )
+      // ctx.fillStyle = "brown"
+      // ctx.fillRect(
+      //   this.hitBox4.position.x,
+      //   this.hitBox4.position.y,
+      //   this.hitBox4.width,
+      //   this.hitBox4.height
+      // )
+
+      
 
     this.draw();
   }
@@ -795,13 +799,6 @@ const player = new Actor({
     },
   },
 
-  // dimensions:{
-  //     width:50,
-  //     height:150
-  // },
-  // color:{
-  //     color : "white"
-  // },
   bounce: {
     x: 0,
     y: 0,
@@ -812,46 +809,54 @@ const player = new Actor({
   },
 });
 
-// const player2 = new Actor({
-//     position:{
-//         x: (1824 - 450),
-//         y: (800 - 500)
-//     },
-//     velocity:{
-//         x:0,
-//         y:0
-//     },
-//     dimensions:{
-//         width:50,
-//         height:150
-//     },
-//     color:{
-//         color : "red"
-//     },
-//     bounce:{
-//         x:0,
-//         y:0
-//     },
-//     offset:{
-//         x: 1372,
-//         y: 300
-//     }
-// })
-
-const basketBall = new Actor({
+const player2 = new Actor({
   position: {
-    x: 900,
-    y: 300,
+    x: 300,
+    y: floorHeight,
   },
   velocity: {
     x: 0,
     y: 0,
   },
-  dimensions: {
-    width: 50,
-    height: 50,
+  scale: 4,
+  sprites: {
+    idle: {
+      src: "./img/spr/CidleFront.png",
+      totalSpriteFrames: 22,
+      framesPerSpriteFrame: 7,
+    },
+    running: {
+      src: "./img/spr/CWalkRight.png",
+      totalSpriteFrames: 21,
+      framesPerSpriteFrame: 2,
+    },
+    jumping: {
+      src: "./img/spr/CJumpRight.png",
+      totalSpriteFrames: 22,
+      framesPerSpriteFrame: 10,
+    },
   },
 
+  bounce: {
+    x: 0,
+    y: 0,
+  },
+  offset: {
+    x: 400,
+    y: 300,
+  },
+});
+
+
+const basketBall = new Actor({
+  position: {
+    x: 0,
+    y: floorHeight,
+  },
+  velocity: {
+    x: 0,
+    y: 0,
+  },
   bounce: {
     x: 0.8,
     y: 0.8,
@@ -860,74 +865,84 @@ const basketBall = new Actor({
     x: 900,
     y: 300,
   },
-  scale: 4,
+  scale:4,
   sprites: {
     idle: {
-      src: "img/spr/bola.png",
-      totalSpriteFrames: 22,
-      framesPerSpriteFrame: 7,
+      src: "./img/spr/bola.png",
+      totalSpriteFrames: 1,
+      framesPerSpriteFrame: 1,
     },
   },
+
 });
 
-// const hoop = new Scenario({
-//     position:{
-//         x: 1464,
-//         y: 250
-//     },
-//     dimensions:{
-//         width:0,
-//         height:0
-//     },
-//     color:{
-//         color : "purple"
-//     },
-//     hitBox4:{
-//         offset:{
-//             x: 170,
-//             y: 0,
+const hoop = new Scenario({
+    position:{
+        x: 154,
+        y: 245
+    },
+    scale:1,
+    sprites: {
+      idle: {
+        src: "./img/spr/hoopreal.png",
+        totalSpriteFrames: 1,
+        framesPerSpriteFrame: 1,
+      },
+    
+  },
+  hitBox4:{
+      offset:{
+          x: 110,
+          y: 12,
 
-//         },
-//         width:50,
-//         height:60
 
-//     },
-//     hitBox3:{
-//         offset:{
-//             x: 0,
-//             y: 0,
+      },
+      width:5,
+      height:10,
+      
+      },
+  
+  hitBox3:{
+      offset:{
+          x: 0,
+          y: 12,
 
-//         },
-//         width:50,
-//         height:60
+      },
+      width:27,
+      height:10
 
-//     },
-//     hitBox:{
-//         offset:{
-//             x: 50,
-//             y: 20,
+  },
+  hitBox:{
+      offset:{
+          x: 27,
+          y: 12,
 
-//         },
-//         width:120,
-//         height:30
+      },
+      width:83,
+      height:10
 
-//     },
-// });
+  },
 
-// const support = new Scenario({
-//     position:{
-//         x: hoop.hitBox4.position.x + (hoop.hitBox4.width*4.41),
-//         y: hoop.hitBox4.position.y - 100
-//     },
-//     dimensions:{
-//         width:40,
-//         height: 700
-//     },
-//     color:{
-//         color : "cyan"
-//     },
+    
+});
 
-// });
+const support = new Scenario({
+    position:{
+        x: 11,
+        y: 100
+        // x: hoop.hitBox4.position.x + (hoop.hitBox4.width*4.41),
+        // y: hoop.hitBox4.position.y - 100
+    },
+    scale:1,
+    sprites: {
+      idle: {
+        src: "./img/spr/suportLeft.png",
+        totalSpriteFrames: 1,
+        framesPerSpriteFrame: 1,
+      },
+    },
+
+});
 
 // const wall = new Scenario({
 //     position:{
@@ -944,64 +959,70 @@ const basketBall = new Actor({
 
 // });
 
-// const hoop2 = new Scenario({
-//     position:{
-//         x: 140,
-//         y: 250
-//     },
-//     dimensions:{
-//         width:0,
-//         height:0
-//     },
-//     color:{
-//         color : "purple"
-//     },
-//     hitBox4:{
-//         offset:{
-//             x: 170,
-//             y: 0,
+const hoop2 = new Scenario({
+    position:{
+        x: 1010,
+        y: 245
+    },
+    scale:1,
+    sprites: {
+      idle: {
+        src: "./img/spr/hoopreal2.png",
+        totalSpriteFrames: 1,
+        framesPerSpriteFrame: 1,
+      },
+    },
+    hitBox4:{
+        offset:{
+            x: 110,
+            y: 12,
 
-//         },
-//         width:50,
-//         height:60
 
-//     },
-//     hitBox3:{
-//         offset:{
-//             x: 0,
-//             y: 0,
+        },
+        width:5,
+        height:10,
+        
+        },
+    
+    hitBox3:{
+        offset:{
+            x: 0,
+            y: 12,
 
-//         },
-//         width:50,
-//         height:60
+        },
+        width:27,
+        height:10
 
-//     },
-//     hitBox:{
-//         offset:{
-//             x: 50,
-//             y: 20,
+    },
+    hitBox:{
+        offset:{
+            x: 27,
+            y: 12,
 
-//         },
-//         width:120,
-//         height:30
+        },
+        width:83,
+        height:10
 
-//     },
-// });
+    },
+});
 
-// const support2 = new Scenario({
-//     position:{
-//         x: hoop2.hitBox4.position.x - (hoop2.hitBox3.width) + 10,
-//         y: hoop2.hitBox4.position.y - 100
-//     },
-//     dimensions:{
-//         width:40,
-//         height: 700
-//     },
-//     color:{
-//         color : "cyan"
-//     },
+const support2 = new Scenario({
+    position:{
+        x: 1125,
+        y: 100
+        // x: hoop2.hitBox4.position.x - (hoop2.hitBox3.width) + 10,
+        // y: hoop2.hitBox4.position.y - 100
+    },
+    scale:1,
+    sprites: {
+      idle: {
+        src: "./img/spr/suportRight.png",
+        totalSpriteFrames: 1,
+        framesPerSpriteFrame: 1,
+      },
+    },
 
-// });
+});
 
 const background = new Sprite({
   position: {

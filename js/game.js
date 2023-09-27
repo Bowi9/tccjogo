@@ -44,13 +44,13 @@ function animate() {
       ctx.fillStyle = "black";
       ctx.fillRect(0, 0, canvasWidth, canvasHeight);
       background.update();
-      // hoop.update()
-      // support.update()
-      // hoop2.update()
-      // support2.update()
+      hoop.update()
+      support.update()
+      hoop2.update()
+      support2.update()
       // //wall.update()
       player.update();
-      // player2.update()
+      player2.update();
       basketBall.update();
 
       lag -= frameTime;

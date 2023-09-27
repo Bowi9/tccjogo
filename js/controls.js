@@ -194,7 +194,9 @@ function handleControls() {
     } else player.setSprite("jumping");
   }
 
+ 
   movement();
+  get();
 
   //   if (player.end === true) {
   //     movement() = false
@@ -248,76 +250,78 @@ function movement() {
 //    player2.onMovement = true;
 // }
 
-// function get(){
-//     let isColliding = false;
+function get(){
+    let isColliding = false;
 
-//     if (
-//         player.position.x < basketBall.position.x + basketBall.width &&
-//         player.position.x + player.width > basketBall.position.x &&
-//         player.position.y < basketBall.position.y + basketBall.height &&
-//         player.position.y + player.height > basketBall.position.y
-//       ) {
-//         isColliding = true;
+    if (
+        player.position.x < basketBall.position.x + basketBall.width &&
+        player.position.x + player.width > basketBall.position.x &&
+        player.position.y < basketBall.position.y + basketBall.height &&
+        player.position.y + player.height > basketBall.position.y
+      ) {
+        isColliding = true;
+        console.log("ta colidindo")
+      } else {
+        isColliding = false;
+        console.log("nao ta colidindo")
 
-//       } else {
-//         isColliding = false;
+      }
 
-//       }
+    if(isColliding && keys.j.pressed){
+      basketBall.position.y = player.position.y + 25;
+      basketBall.velocity.x = 0;
+      basketBall.velocity.y = 0;
+        const throwSpeed = 16;
 
-//     if(isColliding && keys.j.pressed){
-//       basketBall.position.y = player.position.y + 25;
-//       basketBall.velocity.x = 0;
-//       basketBall.velocity.y = 0;
-//         const throwSpeed = 16;
+        //lançando reto
+        if (keys.a.hold && isColliding && keys.j.pressed ) {
+          basketBall.velocity.x = -throwSpeed;
+          basketBall.velocity.y = 0;
+          basketBall.position.y = player.position.y + 25;
+        }
+        if (keys.d.hold && isColliding && keys.j.pressed ) {
+          basketBall.velocity.x = throwSpeed;
+          basketBall.velocity.y = 0;
+          basketBall.position.y = player.position.y + 25;
+        }
+        if (keys.w.hold && isColliding && keys.j.pressed ) {
+          basketBall.velocity.x = 0;
+          basketBall.velocity.y = -throwSpeed;
+       basketBall.position.y = player.position.y + 25;
+        }
+         if (keys.s.hold && isColliding && keys.j.pressed ) {
+          basketBall.velocity.x = 0;
+          basketBall.velocity.y = throwSpeed;
+          //basketBall.position.y = player.position.y + 25;
+        }
 
-//         //lançando reto
-//         if (keys.a.hold && isColliding && keys.j.pressed ) {
-//           basketBall.velocity.x = -throwSpeed;
-//           basketBall.velocity.y = 0;
-//           basketBall.position.y = player.position.y + 25;
-//         }
-//         if (keys.d.hold && isColliding && keys.j.pressed ) {
-//           basketBall.velocity.x = throwSpeed;
-//           basketBall.velocity.y = 0;
-//           basketBall.position.y = player.position.y + 25;
-//         }
-//         if (keys.w.hold && isColliding && keys.j.pressed ) {
-//           basketBall.velocity.x = 0;
-//           basketBall.velocity.y = -throwSpeed;
-//        basketBall.position.y = player.position.y + 25;
-//         }
-//          if (keys.s.hold && isColliding && keys.j.pressed ) {
-//           basketBall.velocity.x = 0;
-//           basketBall.velocity.y = throwSpeed;
-//           //basketBall.position.y = player.position.y + 25;
-//         }
+        //lançando na diagonal
+        if (keys.a.hold && keys.w.hold && isColliding && keys.j.pressed ) {
+            basketBall.velocity.x = -throwSpeed;
+            basketBall.velocity.y = -throwSpeed;
+            basketBall.position.y = player.position.y + 25;
+          }
+          if (keys.d.hold && keys.w.hold && isColliding && keys.j.pressed ) {
+            basketBall.velocity.x = throwSpeed;
+            basketBall.velocity.y = -throwSpeed;
+            basketBall.position.y = player.position.y + 25;
+          }
+          if (keys.s.hold && keys.a.hold && isColliding && keys.j.pressed ) {
+            basketBall.velocity.x = -throwSpeed;
+            basketBall.velocity.y = throwSpeed;
+            basketBall.position.y = player.position.y + 25;
+          //  (isColliding)
+          }
+           if (keys.s.hold && keys.d.hold && isColliding && keys.j.pressed ) {
+            basketBall.velocity.x = throwSpeed;
+            basketBall.velocity.y = throwSpeed;
+            basketBall.position.y = player.position.y + 25;
+          }
+        keys.j.hold = true;
+    }
+  }
 
-//         //lançando na diagonal
-//         if (keys.a.hold && keys.w.hold && isColliding && keys.j.pressed ) {
-//             basketBall.velocity.x = -throwSpeed;
-//             basketBall.velocity.y = -throwSpeed;
-//             basketBall.position.y = player.position.y + 25;
-//           }
-//           if (keys.d.hold && keys.w.hold && isColliding && keys.j.pressed ) {
-//             basketBall.velocity.x = throwSpeed;
-//             basketBall.velocity.y = -throwSpeed;
-//             basketBall.position.y = player.position.y + 25;
-//           }
-//           if (keys.s.hold && keys.a.hold && isColliding && keys.j.pressed ) {
-//             basketBall.velocity.x = -throwSpeed;
-//             basketBall.velocity.y = throwSpeed;
-//             basketBall.position.y = player.position.y + 25;
-//           //  (isColliding)
-//           }
-//            if (keys.s.hold && keys.d.hold && isColliding && keys.j.pressed ) {
-//             basketBall.velocity.x = throwSpeed;
-//             basketBall.velocity.y = throwSpeed;
-//             basketBall.position.y = player.position.y + 25;
-//           }
-//         keys.j.hold = true;
-//     }
 
-// }
 // function get2(){
 //   let isColliding2 = false;
 

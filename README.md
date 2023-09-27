@@ -2,4 +2,6 @@
 
 ## Tecnologias usadas:
 
-JavaScript
+HTML, CSS, JAVASCRIPT e CANVAS
+
+

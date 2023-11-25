@@ -2,13 +2,14 @@
 import GameObject from "../utils/game-object.js";
 
 class Ball extends GameObject {
-  constructor(x, y, size, color, canvas, context, groundHeight) {
+  constructor(x, y, size, color, canvas, context, groundHeight, game) {
     super(x, y, size, size, color);
     this.velocityX = 0;
     this.velocityY = 0;
     this.canvas = canvas;
     this.context = context;
     this.groundHeight = groundHeight;
+    this.game = game;
   }
 
   // Adicione esta função para verificar a colisão com a tabela
@@ -21,31 +22,13 @@ class Ball extends GameObject {
     );
   }
 
-  // Adicione esta função para verificar a colisão com a tabela dividida em três partes
-  isCollidingWithHoop(ball, hoop) {
-    const isMovingDown = ball.ySpeed > 0;
-    // Primeira parte (10)
-    var firstPart = {
-      x: hoop.x,
-      y: hoop.y,
-      width: 5,
-      height: hoop.height,
-    };
-
+  isInTheSecondPartOfHoop(ball, hoop) {
     // Segunda parte (40)
     var secondPart = {
       x: hoop.x + 5,
       y: hoop.y + 15,
       width: 55,
       height: 1,
-    };
-
-    // Terceira parte (10)
-    var thirdPart = {
-      x: hoop.x + 55,
-      y: hoop.y,
-      width: 5,
-      height: hoop.height,
     };
 
     // Verifica colisão com a segunda parte apenas quando a bola está vindo de cima
@@ -59,9 +42,36 @@ class Ball extends GameObject {
     ) {
       // Ajusta a posição da bola para o topo da segunda parte
       ball.velocityX = 0; // Define a velocidade vertical como zero para interromper a animação
-      ball.velocityY = Math.abs(0.3); // Inverta apenas a direção vertical
-      console.log("ponto");
+
+      if (hoop === this.game.firstPlayerHoop) {
+        this.game.secondPlayer.increaseScore(); // Altere a pontuação conforme necessário
+        this.game.firstPlayer.x = hoop.x;
+      } else if (hoop === this.game.secondPlayerHoop) {
+        this.game.firstPlayer.increaseScore(); // Altere a pontuação conforme necessário
+        this.game.secondPlayer.x = hoop.x;
+      }
     }
+  }
+
+  // Adicione esta função para verificar a colisão com a tabela dividida em três partes
+  isCollidingWithHoop(ball, hoop) {
+    // Primeira parte (10)
+    var firstPart = {
+      x: hoop.x,
+      y: hoop.y,
+      width: 5,
+      height: hoop.height,
+    };
+
+    // Terceira parte (10)
+    var thirdPart = {
+      x: hoop.x + 55,
+      y: hoop.y,
+      width: 5,
+      height: hoop.height,
+    };
+
+    this.isInTheSecondPartOfHoop(ball, hoop);
 
     // Verifica colisão com as outras partes
     return (

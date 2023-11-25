@@ -15,9 +15,9 @@ class Player extends GameObject {
     this.ball = null;
     this.game = game; // Armazene a instância do jogo
     this.isFirstPlayer = isFirstPlayer;
-    this.strength = 30; // O maximo vai ser 5
     this.physics = new Physics(canvas);
     this.physics.setBall(this);
+    this.score = 0;
   }
 
   move() {
@@ -88,7 +88,6 @@ class Player extends GameObject {
 
       // Calcule a variação baseada na proximidade ao alvo
       const proximity = Math.abs(endX - startX); // pensar no que fazer com isso
-      console.log(proximity);
 
       // Calcule o ângulo em graus antes da conversão para radianos
       let angleDegrees = Math.atan2(dy, dx) * (180 / Math.PI);
@@ -113,6 +112,10 @@ class Player extends GameObject {
       // Reinicia o estado do jogador
       this.resetPlayerState();
     }
+  }
+
+  increaseScore() {
+    this.score += 2;
   }
 
   resetPlayerState() {

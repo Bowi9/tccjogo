@@ -13,7 +13,7 @@ class Game {
     this.groundHeight = 50; // Altura do chão
 
     this.firstPlayer = new Player( // cria uma instancia do jogador para o Player 1
-      canvas.width / 2 - 100,
+      canvas.width / 2 - 118,
       canvas.height - this.groundHeight,
       40,
       75,
@@ -26,7 +26,7 @@ class Game {
     );
 
     this.secondPlayer = new Player( // cria uma instancia do jogador para o Player 2a
-      canvas.width / 2 + 100,
+      canvas.width / 2 + 78,
       canvas.height - this.groundHeight,
       40,
       75,
@@ -38,7 +38,7 @@ class Game {
       false
     );
 
-    this.ball = new Ball(canvas.width / 2 + 10, canvas.height - 200, 20, "orange", canvas, this.context, this.groundHeight); // cria uma instancia da bola
+    this.ball = new Ball(canvas.width / 2 - 10, canvas.height - 200, 20, "orange", canvas, this.context, this.groundHeight, this); // cria uma instancia da bola
 
     this.firstPlayerHoop = new Hoop(
       40, // Posição x do retângulo
@@ -73,9 +73,11 @@ class Game {
     );
 
     this.gamePaused = false;
-    this.gameDuration = 600000000000; //60000
+    this.gameDuration = 10000; //60000
     this.timeLeft = this.gameDuration;
     this.gameInterval = null;
+    this.firstPlayerScore = 0;
+    this.secondPlayerScore = 0;
 
     this.renderer = new Renderer(
       canvas,
@@ -109,6 +111,31 @@ class Game {
 
     this.renderer.drawHoop(this.secondPlayerHoop, this.secondPlayer);
     this.renderer.drawBackboard(this.secondPlayerBackboard, this.secondPlayer);
+
+    this.renderer.drawGrid(128);
+    this.renderer.drawTimer(this.timeLeft, this.gameDuration);
+    this.renderer.drawCenteredScores(this.firstPlayer, this.secondPlayer, 30);
+  }
+
+  // Add a new method to calculate elapsed time and update the timer
+  updateTimer() {
+    const deltaTime = 1000 / 60; // Time per frame (assuming 60 frames per second)
+    this.timeLeft = Math.max(0, this.timeLeft - deltaTime);
+
+    if (this.timeLeft <= 0) {
+      // Game over logic (handle as needed)
+      this.gamePaused = true;
+      clearInterval(this.gameInterval);
+      this.checkWinner();
+    }
+  }
+
+  checkWinner() {
+    if (this.firstPlayer.score >= this.secondPlayer.score) {
+      console.log("Player 1 wins");
+    } else {
+      console.log("Player 2 wins");
+    }
   }
 
   update() {
@@ -141,6 +168,39 @@ class Game {
 
     // Lida com a lógica de física, incluindo colisões
     this.physics.handleBallCollisions();
+    this.updateTimer();
+  }
+
+  pauseGame() {
+    if (!this.gamePaused) {
+      clearInterval(this.gameInterval);
+      this.gamePaused = true;
+    }
+  }
+
+  resumeGame() {
+    if (this.gamePaused) {
+      this.gameInterval = setInterval(() => {
+        try {
+          this.update();
+          this.draw();
+        } catch (error) {
+          console.error("Error in game loop:", error);
+        }
+      }, 1000 / 60);
+
+      this.gamePaused = false;
+    }
+  }
+
+  restartGame() {
+    clearInterval(this.gameInterval);
+    // Crie uma nova instância do jogo
+    const newGame = new Game(this.canvas);
+    // Substitua a instância atual pela nova instância
+    Object.assign(this, newGame);
+    // Inicie o novo jogo
+    this.startGame();
   }
 
   startGame() {

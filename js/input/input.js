@@ -41,11 +41,15 @@ const setupInputListeners = (game, canvas) => {
 
     if (event.key === "p") {
       if (game.gamePaused) {
-        game.startGame();
+        game.resumeGame(); // Alteração: use resumeGame() para retomar o jogo
       } else {
-        clearInterval(game.gameInterval);
-        game.gamePaused = true;
+        game.pauseGame(); // Alteração: use pauseGame() para pausar o jogo
       }
+    }
+
+    // Se você quiser reiniciar o jogo com uma tecla diferente (por exemplo, "r"):
+    if (event.key === "r") {
+      game.restartGame(); // Chame restartGame() para reiniciar o jogo
     }
 
     if (event.key === "a" || event.key === "d") {
